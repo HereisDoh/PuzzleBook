@@ -1,0 +1,319 @@
+/*
+Project: Bookstore React + Simple Express Checkout
+Single-file bundle for easy copy/paste. This document contains the entire mini-project:
+
+- package.json
+- tailwind.config.js
+- postcss.config.js
+- public/index.html
+- src/index.jsx
+- src/App.jsx  <-- Default exported React component (main UI)
+- server/index.js  <-- Minimal Express server to create Stripe Checkout sessions
+
+HOW TO USE (dev):
+1. Create a new folder and copy the files below into the correct paths.
+2. Run: npm install
+3. Run the dev server: npm run dev (front) and node server/index.js (back) or use concurrently.
+4. Replace STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY placeholders with your Stripe keys.
+
+Note: For production use, deploy the front-end (Vercel/Netlify) and the server (Vercel Serverless/Heroku) and set environment variables for Stripe keys.
+
+-- FILES START --
+
+// package.json
+{
+  "name": "bookstore-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "stripe": "^11.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.4.7",
+    "vite": "^5.0.0"
+  }
+}
+
+// tailwind.config.js
+module.exports = {
+  content: ['./index.html', './src/**/*.{js,jsx}'],
+  theme: { extend: {} },
+  plugins: [],
+}
+
+// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  }
+}
+
+// public/index.html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Your Books — Shop</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>
+  </body>
+</html>
+
+// src/index.jsx
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App'
+import './styles.css'
+
+createRoot(document.getElementById('root')).render(<App />)
+
+// src/styles.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small utility tweaks */
+html,body,#root { height: 100%; }
+
+// src/App.jsx
+import React, { useState } from 'react'
+
+// Sample product data — replace with your real books
+const BOOKS = [
+  {
+    id: 'book-1',
+    title: 'The Midnight Inventor',
+    subtitle: 'A whimsical tale of curiosity',
+    price: 14.99,
+    sku: 'MID-001',
+    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'
+  },
+  {
+    id: 'book-2',
+    title: 'Fidgetcraft: Hands That Build',
+    subtitle: 'Creative projects with cardboard & laser cutters',
+    price: 19.99,
+    sku: 'FIG-002',
+    cover: 'https://images.unsplash.com/photo-1528205483643-6c9a9a7f6b6a?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'
+  },
+  {
+    id: 'book-3',
+    title: 'Geometry Adventures',
+    subtitle: 'Problems and puzzles for learners',
+    price: 12.5,
+    sku: 'GEO-003',
+    cover: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder'
+  }
+]
+
+export default function App() {
+  const [cart, setCart] = useState([])
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  function addToCart(book) {
+    setCart(prev => {
+      const found = prev.find(p => p.id === book.id)
+      if (found) return prev.map(p => p.id === book.id ? { ...p, qty: p.qty + 1 } : p)
+      return [...prev, { ...book, qty: 1 }]
+    })
+  }
+
+  function removeFromCart(id) {
+    setCart(prev => prev.filter(p => p.id !== id))
+  }
+
+  function updateQty(id, qty) {
+    setCart(prev => prev.map(p => p.id === id ? { ...p, qty: Math.max(1, qty) } : p))
+  }
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0)
+
+  async function handleCheckout() {
+    if (cart.length === 0) return alert('Your cart is empty!')
+    setCheckoutLoading(true)
+    try {
+      // call your server to create a Stripe Checkout session
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart.map(i => ({ id: i.id, quantity: i.qty })) })
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert('Checkout failed — check console')
+        console.error(data)
+      }
+    } catch (err) {
+      console.error(err)
+      alert('There was an error contacting the server.')
+    } finally {
+      setCheckoutLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      <header className="bg-white shadow">
+        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-extrabold">Your Bookshop</h1>
+            <p className="text-sm text-gray-500">Handmade books & guides by you</p>
+          </div>
+          <nav className="flex items-center gap-4">
+            <button className="px-4 py-2 bg-indigo-600 text-white rounded-md" onClick={() => window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})}>
+              Shop ({cart.reduce((a,c)=>a+c.qty,0)})
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section className="lg:col-span-2">
+          <div className="grid sm:grid-cols-2 gap-6">
+            {BOOKS.map(book => (
+              <article key={book.id} className="bg-white rounded-2xl shadow p-4 flex gap-4">
+                <img src={book.cover} alt={book.title} className="w-32 h-44 object-cover rounded-md flex-shrink-0" />
+                <div className="flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold">{book.title}</h2>
+                    <p className="text-sm text-gray-600">{book.subtitle}</p>
+                    <p className="mt-3 font-bold">${book.price.toFixed(2)}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="px-3 py-2 border rounded-md" onClick={() => addToCart(book)}>Add to cart</button>
+                    <button className="px-3 py-2 text-sm text-gray-600" onClick={() => alert('More details coming soon!')}>More details</button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <aside className="bg-white rounded-2xl shadow p-4">
+          <h3 className="text-lg font-semibold">Cart</h3>
+          <div className="mt-4 space-y-3">
+            {cart.length === 0 && <p className="text-sm text-gray-500">Your cart is empty — add a book.</p>}
+            {cart.map(item => (
+              <div key={item.id} className="flex items-center gap-3">
+                <img src={item.cover} alt="cover" className="w-12 h-16 object-cover rounded-sm" />
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <div>
+                      <div className="font-medium">{item.title}</div>
+                      <div className="text-xs text-gray-500">{item.sku}</div>
+                    </div>
+                    <div className="font-semibold">${(item.price*item.qty).toFixed(2)}</div>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <input type="number" min="1" value={item.qty} onChange={(e)=>updateQty(item.id, parseInt(e.target.value||1))} className="w-16 rounded-md border px-2 py-1 text-sm" />
+                    <button className="text-sm text-red-600" onClick={()=>removeFromCart(item.id)}>Remove</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 border-t pt-4">
+            <div className="flex justify-between text-sm text-gray-600">Subtotal <span>${subtotal.toFixed(2)}</span></div>
+            <button className="mt-4 w-full px-4 py-3 bg-green-600 text-white rounded-md disabled:opacity-60" onClick={handleCheckout} disabled={checkoutLoading}>
+              {checkoutLoading ? 'Redirecting...' : `Checkout — $${subtotal.toFixed(2)}`}
+            </button>
+            <p className="mt-2 text-xs text-gray-500">Secure checkout powered by Stripe. Shipping & tax calculated at checkout.</p>
+          </div>
+        </aside>
+      </main>
+
+      <footer className="bg-white mt-12">
+        <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-gray-500 flex justify-between">
+          <div>© {new Date().getFullYear()} Your Name — All rights reserved</div>
+          <div>
+            <a href="#" className="mr-4">Privacy</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
+
+// server/index.js
+// Minimal Express + Stripe endpoint to create a Checkout Session.
+// Replace process.env.STRIPE_SECRET_KEY with your key on the server.
+
+const express = require('express')
+const app = express()
+app.use(express.json())
+
+// load stripe after setting env var
+const Stripe = require('stripe')
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_YOUR_SECRET')
+
+// map of product prices (in cents). In production, keep prices server-side or use Stripe Products.
+const PRICE_MAP = {
+  'book-1': 1499,
+  'book-2': 1999,
+  'book-3': 1250
+}
+
+app.post('/api/create-checkout-session', async (req, res) => {
+  try {
+    const { items } = req.body
+    const line_items = items.map(i => ({
+      price_data: {
+        currency: 'usd',
+        product_data: { name: i.id },
+        unit_amount: PRICE_MAP[i.id] || 1000,
+      },
+      quantity: i.quantity,
+    }))
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items,
+      mode: 'payment',
+      success_url: (req.headers.origin || 'http://localhost:5173') + '/?success=1',
+      cancel_url: (req.headers.origin || 'http://localhost:5173') + '/?canceled=1',
+    })
+
+    res.json({ url: session.url })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error creating session' })
+  }
+})
+
+const PORT = process.env.PORT || 4242
+app.listen(PORT, ()=> console.log('Server running on', PORT))
+
+/*
+-- FILES END --
+
+Customization tips (quick):
+- Replace BOOKS array with data fetched from a CMS or your store API.
+- Swap cover image URLs for your real covers; keep dimensions similar.
+- Implement server-side verification of prices to prevent tampering.
+- Add an admin page to add new books or use Stripe Products & Prices for long-term.
+
+Security notes:
+- Never commit STRIPE_SECRET_KEY to source control. Use environment variables in deployment.
+- For small scale, you can use Stripe Products & Prices via the Dashboard and reference price IDs from the frontend.
+
+*/
