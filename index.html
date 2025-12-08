@@ -66,6 +66,48 @@ header {
   background: #218838;
 }
 
+/* Custom Book Section */
+.custom-book {
+  margin-top: 40px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.custom-book h2 {
+  margin-top: 0;
+}
+
+.custom-book input,
+.custom-book textarea,
+.custom-book button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.custom-book button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-book button:hover {
+  background: #0056b3;
+}
+
+.success-message {
+  display: none;
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
+}
+
 footer {
   text-align: center;
   padding: 20px;
@@ -109,7 +151,19 @@ footer {
     <p>A fully customizable journal with themed pages and built‑in fidgets for daily use.</p>
     <a class="buy-btn" href="#">Buy Now</a>
   </div>
+</div>
 
+<!-- Custom Book Form at the Bottom -->
+<div class="custom-book">
+  <h2>Create Your Own Custom Book</h2>
+  <p>Fill out the form below to request a custom-designed book!</p>
+  <form id="customForm">
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your Email" required />
+    <textarea placeholder="Describe your custom book ideas..." rows="4" required></textarea>
+    <button type="submit">Submit Request</button>
+    <div id="custSuccess" class="success-message">Thanks! Your custom book request has been submitted.</div>
+  </form>
 </div>
 ```
 
@@ -118,5 +172,16 @@ footer {
   <footer>
     © 2025 My Handmade Books — Crafted With Creativity
   </footer>
+
+  <script>
+    const form = document.getElementById('customForm');
+    const successMsg = document.getElementById('custSuccess');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successMsg.style.display = 'block';
+      form.reset();
+    });
+  </script>
+
 </body>
 </html>
