@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,65 +13,68 @@
       background: #f4f4f4;
     }
 
-    header {
-      background: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 28px;
-    }
+```
+header {
+  background: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+}
 
-    .container {
-      width: 90%;
-      margin: auto;
-      padding: 20px;
-    }
+.container {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
 
-    .book-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
 
-    .book {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+.book {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-    .book img {
-      width: 100%;
-      border-radius: 8px;
-    }
+.book img {
+  width: 100%;
+  border-radius: 8px;
+}
 
-    .book h3 {
-      margin: 10px 0;
-    }
+.book h3 {
+  margin: 10px 0;
+}
 
-    .buy-btn {
-      display: inline-block;
-      padding: 10px 15px;
-      margin-top: 10px;
-      background: #28a745;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-    }
+.buy-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  margin-top: 10px;
+  background: #28a745;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
 
-    .buy-btn:hover {
-      background: #218838;
-    }
+.buy-btn:hover {
+  background: #218838;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      background: #222;
-      color: white;
-    }
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  background: #222;
+  color: white;
+}
+```
+
   </style>
 </head>
 <body>
@@ -80,60 +84,39 @@
     <h2>Available Books</h2>
     <p>Browse the books I create using Glowforge laser cutting, cardboard engineering, and built‑in fidget designs.</p>
 
-    <div class="book-grid">
-      <!-- Book 1 -->
-      <div class="book">
-        <img src="book1.jpg" alt="Book 1" />
-        <h3>Interactive Fidget Book</h3>
-        <p>A handmade book filled with unique fidgets designed to help with anxiety, focus, and creativity.</p>
-        <a class="buy-btn" href="#">Buy Now</a>
-      </div>
-
-      <!-- Book 2 -->
-      <div class="book">
-        <img src="book2.jpg" alt="Book 2" />
-        <h3>Puzzle + Challenge Book</h3>
-        <p>Packed with laser‑cut puzzles, hidden mechanisms, and brain‑teasing challenges.</p>
-        <a class="buy-btn" href="#">Buy Now</a>
-      </div>
-
-      <!-- Book 3 -->
-      <div class="book">
-        <img src="book3.jpg" alt="Book 3" />
-        <h3>Custom‑Themed Fidget Journal</h3>
-        <p>A fully customizable journal with themed pages and built‑in fidgets for daily use.</p>
-        <a class="buy-btn" href="#">Buy Now</a>
-      </div>
-
-    <!-- Create Your Own Book Section -->
-    
+```
+<div class="book-grid">
+  <!-- Book 1 -->
+  <div class="book">
+    <img src="book1.jpg" alt="Book 1" />
+    <h3>Interactive Fidget Book</h3>
+    <p>A handmade book filled with unique fidgets designed to help with anxiety, focus, and creativity.</p>
+    <a class="buy-btn" href="#">Buy Now</a>
   </div>
 
-    
+  <!-- Book 2 -->
+  <div class="book">
+    <img src="book2.jpg" alt="Book 2" />
+    <h3>Puzzle + Challenge Book</h3>
+    <p>Packed with laser‑cut puzzles, hidden mechanisms, and brain‑teasing challenges.</p>
+    <a class="buy-btn" href="#">Buy Now</a>
+  </div>
+
+  <!-- Book 3 -->
+  <div class="book">
+    <img src="book3.jpg" alt="Book 3" />
+    <h3>Custom‑Themed Fidget Journal</h3>
+    <p>A fully customizable journal with themed pages and built‑in fidgets for daily use.</p>
+    <a class="buy-btn" href="#">Buy Now</a>
+  </div>
+
+</div>
+```
+
   </div>
 
   <footer>
     © 2025 My Handmade Books — Crafted With Creativity
   </footer>
-  <script>
-    // Handle custom book form
-    const form = document.getElementById('customForm');
-    const successMsg = document.getElementById('custSuccess');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      successMsg.style.display = 'block';
-      form.reset();
-    });
-  </script>
-  <script>
-    const form = document.getElementById('customForm');
-    const successMsg = document.getElementById('custSuccess');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      successMsg.style.display = 'block';
-      form.reset();
-    });
-  </script>
 </body>
 </html>
