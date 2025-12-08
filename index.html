@@ -7,7 +7,6 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      color: white;
       margin: 0;
       padding: 0;
       background: #f4f4f4;
@@ -79,7 +78,7 @@
 
   <div class="container">
     <h2>Available Books</h2>
-    <p>Browse the books I create using Glowforge laser cutting, cardboard engineering, and built-in fidget designs.</p>
+    <p>Browse the books I create using Glowforge laser cutting, cardboard engineering, and built‑in fidget designs.</p>
 
     <div class="book-grid">
       <!-- Book 1 -->
@@ -94,22 +93,64 @@
       <div class="book">
         <img src="book2.jpg" alt="Book 2" />
         <h3>Puzzle + Challenge Book</h3>
-        <p>Packed with laser-cut puzzles, hidden mechanisms, and brain-teasing challenges.</p>
+        <p>Packed with laser‑cut puzzles, hidden mechanisms, and brain‑teasing challenges.</p>
         <a class="buy-btn" href="#">Buy Now</a>
       </div>
 
       <!-- Book 3 -->
       <div class="book">
         <img src="book3.jpg" alt="Book 3" />
-        <h3>Custom-Themed Fidget Journal</h3>
-        <p>A fully customizable journal with themed pages and built-in fidgets for daily use.</p>
+        <h3>Custom‑Themed Fidget Journal</h3>
+        <p>A fully customizable journal with themed pages and built‑in fidgets for daily use.</p>
         <a class="buy-btn" href="#">Buy Now</a>
       </div>
-    </div>
+
+    <!-- Create Your Own Book Section -->
+    <section class="create-section" style="margin-top:40px; padding:20px; background:white; border-radius:10px; box-shadow:0 0 8px rgba(0,0,0,0.1);">
+      <h2>Create Your Own Custom Book</h2>
+      <p>Want a book made exactly how you imagine it? Create your own!</p>
+
+      <form id="customForm" style="display:grid; gap:15px; max-width:400px; margin-top:15px;">
+        <label>
+          <strong>Your Name</strong><br />
+          <input type="text" id="custName" required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;" />
+        </label>
+
+        <label>
+          <strong>Book Type</strong><br />
+          <select id="custType" required style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+            <option value="Fidget Book">Fidget Book</option>
+            <option value="Puzzle Book">Puzzle Book</option>
+            <option value="Custom Journal">Custom Journal</option>
+          </select>
+        </label>
+
+        <label>
+          <strong>Description</strong><br />
+          <textarea id="custDesc" required rows="4" placeholder="Describe your idea..." style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"></textarea>
+        </label>
+
+        <button type="submit" style="padding:10px 15px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer;">Submit Request</button>
+      </form>
+
+      <p id="custSuccess" style="color:green; font-weight:bold; margin-top:10px; display:none;">Your request was submitted!</p>
+    </section>
+  </div>
   </div>
 
   <footer>
     © 2025 My Handmade Books — Crafted With Creativity
   </footer>
+  <script>
+    // Handle custom book form
+    const form = document.getElementById('customForm');
+    const successMsg = document.getElementById('custSuccess');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successMsg.style.display = 'block';
+      form.reset();
+    });
+  </script>
 </body>
 </html>
