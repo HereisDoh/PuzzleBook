@@ -61,7 +61,6 @@
       background: #218838;
     }
 
-    /* Custom Book Section */
     .custom-book {
       margin-top: 40px;
       background: #fff3cd;
@@ -99,7 +98,7 @@
       font-weight: bold;
     }
 
-    /* DESIGN SPACE GRID */
+    /* DESIGN GRID */
     .design-space {
       margin-top: 20px;
     }
@@ -118,7 +117,6 @@
       background: #e0e0e0;
       border-radius: 4px;
       cursor: pointer;
-      position: relative;
     }
 
     .grid-cell.active {
@@ -167,7 +165,7 @@
     </div>
   </div>
 
-  <!-- CUSTOM BOOK FORM -->
+  <!-- CUSTOM FORM -->
   <div class="custom-book">
     <h2>Create Your Own Custom Book</h2>
     <p>Fill out the form below to request a custom-designed book!</p>
@@ -183,8 +181,8 @@
         <strong>Design Your Layout</strong>
         <p>Click squares to sketch your idea.</p>
 
-        <div class="grid" id="designGrid">
-          <!-- 100 cells -->
+        <div class="grid">
+          <!-- 40 cells -->
           <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
           <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
 
@@ -213,6 +211,7 @@
 </footer>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById('customForm');
   const successMsg = document.getElementById('custSuccess');
   const cells = document.querySelectorAll('.grid-cell');
@@ -229,6 +228,7 @@
     form.reset();
     cells.forEach(cell => cell.classList.remove('active'));
   });
+});
 </script>
 
 </body>
