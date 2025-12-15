@@ -98,7 +98,7 @@
       font-weight: bold;
     }
 
-    /* Drawing board styling */
+    /* Drawing board */
     .design-space {
       margin-top: 20px;
     }
@@ -106,12 +106,12 @@
     #drawingBoard {
       display: block;
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
       height: 400px;
       border: 2px solid #ccc;
       border-radius: 8px;
       background: #fff;
-      touch-action: none; /* allows drawing on touch devices */
+      touch-action: none; /* for touch devices */
       margin-top: 10px;
     }
 
@@ -204,7 +204,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Form submission
   const form = document.getElementById('customForm');
   const successMsg = document.getElementById('custSuccess');
 
@@ -254,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  // Form submission behavior
+  // Form submission
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     successMsg.style.display = 'block';
