@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Handmade Books</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,176 +13,223 @@
       background: #f4f4f4;
     }
 
-```
-header {
-  background: #333;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 28px;
-}
+    header {
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+    }
 
-.container {
-  width: 90%;
-  margin: auto;
-  padding: 20px;
-}
+    .container {
+      width: 90%;
+      margin: auto;
+      padding: 20px;
+    }
 
-.book-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
 
-.book {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+    .book {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-.book img {
-  width: 100%;
-  border-radius: 8px;
-}
+    .book img {
+      width: 100%;
+      border-radius: 8px;
+    }
 
-.book h3 {
-  margin: 10px 0;
-}
+    .buy-btn {
+      display: inline-block;
+      padding: 10px 15px;
+      margin-top: 10px;
+      background: #28a745;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
 
-.buy-btn {
-  display: inline-block;
-  padding: 10px 15px;
-  margin-top: 10px;
-  background: #28a745;
-  color: white;
-  border-radius: 6px;
-  text-decoration: none;
-}
+    .buy-btn:hover {
+      background: #218838;
+    }
 
-.buy-btn:hover {
-  background: #218838;
-}
+    /* Custom Book Section */
+    .custom-book {
+      margin-top: 40px;
+      background: #fff3cd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
 
-/* Custom Book Section */
-.custom-book {
-  margin-top: 40px;
-  background: #fff3cd;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
+    .custom-book input,
+    .custom-book textarea,
+    .custom-book button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
 
-.custom-book h2 {
-  margin-top: 0;
-  color: #856404;
-}
+    .custom-book button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-.custom-book input,
-.custom-book textarea,
-.custom-book button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
+    .custom-book button:hover {
+      background: #0056b3;
+    }
 
-.custom-book button {
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    .success-message {
+      display: none;
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+    }
 
-.custom-book button:hover {
-  background: #0056b3;
-}
+    /* DESIGN SPACE GRID */
+    .design-space {
+      margin-top: 20px;
+    }
 
-.success-message {
-  display: none;
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      max-width: 320px;
+      margin-top: 10px;
+    }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  background: #222;
-  color: white;
-}
-```
+    .grid-cell {
+      width: 100%;
+      padding-top: 100%;
+      background: #e0e0e0;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
 
+    .grid-cell.active {
+      background: #007bff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #222;
+      color: white;
+    }
   </style>
 </head>
+
 <body>
-  <header>My Handmade Fidget + Creative Books</header>
 
-  <div class="container">
-    <h2>Available Books</h2>
-    <p>Browse the books I create using Glowforge laser cutting, cardboard engineering, and built‑in fidget designs.</p>
+<header>My Handmade Fidget + Creative Books</header>
 
-```
-<div class="book-grid">
-  <!-- Book 1 -->
-  <div class="book">
-    <img src="book1.jpg" alt="Book 1" />
-    <h3>Interactive Fidget Book</h3>
-    <p>A handmade book filled with unique fidgets designed to help with anxiety, focus, and creativity.</p>
-    <a class="buy-btn" href="#">Buy Now</a>
+<div class="container">
+
+  <h2>Available Books</h2>
+  <p>Browse the books I create using Glowforge laser cutting, cardboard engineering, and built-in fidget designs.</p>
+
+  <div class="book-grid">
+    <div class="book">
+      <img src="book1.jpg" alt="Book 1">
+      <h3>Interactive Fidget Book</h3>
+      <p>A handmade book filled with unique fidgets designed to help with anxiety, focus, and creativity.</p>
+      <a class="buy-btn" href="#">Buy Now</a>
+    </div>
+
+    <div class="book">
+      <img src="book2.jpg" alt="Book 2">
+      <h3>Puzzle + Challenge Book</h3>
+      <p>Packed with laser-cut puzzles, hidden mechanisms, and brain-teasing challenges.</p>
+      <a class="buy-btn" href="#">Buy Now</a>
+    </div>
+
+    <div class="book">
+      <img src="book3.jpg" alt="Book 3">
+      <h3>Custom-Themed Fidget Journal</h3>
+      <p>A fully customizable journal with themed pages and built-in fidgets for daily use.</p>
+      <a class="buy-btn" href="#">Buy Now</a>
+    </div>
   </div>
 
-  <!-- Book 2 -->
-  <div class="book">
-    <img src="book2.jpg" alt="Book 2" />
-    <h3>Puzzle + Challenge Book</h3>
-    <p>Packed with laser‑cut puzzles, hidden mechanisms, and brain‑teasing challenges.</p>
-    <a class="buy-btn" href="#">Buy Now</a>
+  <!-- CUSTOM BOOK FORM -->
+  <div class="custom-book">
+    <h2>Create Your Own Custom Book</h2>
+    <p>Fill out the form below to request a custom-designed book!</p>
+
+    <form id="customForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="text" placeholder="Your Grade" required>
+
+      <textarea placeholder="Describe your custom book ideas..." rows="4" required></textarea>
+
+      <!-- DESIGN SPACE -->
+      <div class="design-space">
+        <strong>Design Your Layout</strong>
+        <p>Click squares to sketch your idea.</p>
+
+        <div class="grid" id="designGrid">
+          <!-- 100 cells -->
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+        </div>
+      </div>
+
+      <button type="submit">Submit Request</button>
+      <div id="custSuccess" class="success-message">
+        Thanks! Your custom book request has been submitted.
+      </div>
+    </form>
   </div>
 
-  <!-- Book 3 -->
-  <div class="book">
-    <img src="book3.jpg" alt="Book 3" />
-    <h3>Custom‑Themed Fidget Journal</h3>
-    <p>A fully customizable journal with themed pages and built‑in fidgets for daily use.</p>
-    <a class="buy-btn" href="#">Buy Now</a>
-  </div>
 </div>
 
-<!-- Custom Book Form at the Bottom -->
-<div class="custom-book">
-  <h2>Create Your Own Custom Book</h2>
-  <p>Fill out the form below to request a custom-designed book!</p>
-  <form id="customForm">
-    <input type="text" placeholder="Your Name" required />
-    <input type="grade" placeholder="Your Grade" required />
-    <textarea placeholder="Describe your custom book ideas..." rows="4" required></textarea>
-    <button type="submit">Submit Request</button>
-    <div id="custSuccess" class="success-message">Thanks! Your custom book request has been submitted.</div>
-  </form>
-</div>
-```
+<footer>
+  © 2025 My Handmade Books — Crafted With Creativity
+</footer>
 
-  </div>
+<script>
+  const form = document.getElementById('customForm');
+  const successMsg = document.getElementById('custSuccess');
+  const cells = document.querySelectorAll('.grid-cell');
 
-  <footer>
-    © 2025 My Handmade Books — Crafted With Creativity
-  </footer>
-
-  <script>
-    const form = document.getElementById('customForm');
-    const successMsg = document.getElementById('custSuccess');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      successMsg.style.display = 'block';
-      form.reset();
+  cells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      cell.classList.toggle('active');
     });
-  </script>
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    successMsg.style.display = 'block';
+    form.reset();
+    cells.forEach(cell => cell.classList.remove('active'));
+  });
+</script>
 
 </body>
 </html>
