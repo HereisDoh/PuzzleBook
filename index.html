@@ -98,29 +98,31 @@
       font-weight: bold;
     }
 
-    /* DESIGN GRID */
+    /* Drawing board styling */
     .design-space {
       margin-top: 20px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 5px;
-      max-width: 320px;
+    #drawingBoard {
+      display: block;
       margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      touch-action: none; /* allow touch drawing */
     }
 
-    .grid-cell {
-      width: 100%;
-      padding-top: 100%;
-      background: #e0e0e0;
+    #clearCanvas {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      background: #007bff;
+      color: white;
       border-radius: 4px;
       cursor: pointer;
     }
 
-    .grid-cell.active {
-      background: #007bff;
+    #clearCanvas:hover {
+      background: #0056b3;
     }
 
     footer {
@@ -173,28 +175,14 @@
     <form id="customForm">
       <input type="text" placeholder="Your Name" required>
       <input type="text" placeholder="Your Grade" required>
-
       <textarea placeholder="Describe your custom book ideas..." rows="4" required></textarea>
 
-      <!-- DESIGN SPACE -->
+      <!-- DRAWING BOARD -->
       <div class="design-space">
-        <strong>Design Your Layout</strong>
-        <p>Click squares to sketch your idea.</p>
-
-        <div class="grid">
-          <!-- 40 cells -->
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-          <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-        </div>
+        <strong>Design Your Book Layout</strong>
+        <p>Draw your ideas directly below.</p>
+        <canvas id="drawingBoard" width="400" height="400"></canvas>
+        <button type="button" id="clearCanvas">Clear Drawing</button>
       </div>
 
       <button type="submit">Submit Request</button>
@@ -212,21 +200,61 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  // Form submission
   const form = document.getElementById('customForm');
   const successMsg = document.getElementById('custSuccess');
-  const cells = document.querySelectorAll('.grid-cell');
-
-  cells.forEach(cell => {
-    cell.addEventListener('click', () => {
-      cell.classList.toggle('active');
-    });
-  });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     successMsg.style.display = 'block';
     form.reset();
-    cells.forEach(cell => cell.classList.remove('active'));
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
+  // Drawing board
+  const canvas = document.getElementById("drawingBoard");
+  const ctx = canvas.getContext("2d");
+  let drawing = false;
+
+  function startDraw(e) {
+    drawing = true;
+    draw(e); // draw first dot
+  }
+
+  function endDraw() {
+    drawing = false;
+    ctx.beginPath();
+  }
+
+  function draw(e) {
+    if(!drawing) return;
+    e.preventDefault();
+    let rect = canvas.getBoundingClientRect();
+    let x = e.clientX ? e.clientX - rect.left : e.touches[0].clientX - rect.left;
+    let y = e.clientY ? e.clientY - rect.top : e.touches[0].clientY - rect.top;
+
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#007bff";
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  }
+
+  canvas.addEventListener("mousedown", startDraw);
+  canvas.addEventListener("mouseup", endDraw);
+  canvas.addEventListener("mouseout", endDraw);
+  canvas.addEventListener("mousemove", draw);
+
+  canvas.addEventListener("touchstart", startDraw);
+  canvas.addEventListener("touchend", endDraw);
+  canvas.addEventListener("touchcancel", endDraw);
+  canvas.addEventListener("touchmove", draw);
+
+  document.getElementById("clearCanvas").addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 });
 </script>
